@@ -3,6 +3,8 @@
 # User-specific stuff
 .idea/
 
+.paper-nms
+
 *.iml
 *.ipr
 *.iws
