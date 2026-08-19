@@ -1,10 +1,8 @@
-/*package uk.cloudmc.microwavedram.noboatlag;
+package uk.cloudmc.microwavedram.noboatlag;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.vehicle.AbstractBoat;
-import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
@@ -35,4 +33,3 @@ public class CollisionlessBoat extends Boat {
         return false;
     }
 }
-*/

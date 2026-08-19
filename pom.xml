@@ -11,8 +11,11 @@
     <name>noboatlag</name>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <!-- Folia 26.2 ships Java 25 bytecode (class-file major 69) and runs on a
+             Java 25 JVM, so the plugin must be compiled at 25 too. Compiling at 21
+             makes javac reject the server's class files ("wrong version 69, should be 65"). -->
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -24,10 +27,62 @@
     </repositories>
 
     <dependencies>
+        <!--
+            Mojang-mapped Folia server, used to compile the NMS access against.
+
+            This is NOT downloaded from a repository. It was extracted from the Folia
+            paperclip jar and installed into the local Maven repo. To (re)create it on
+            another machine, run the paperclip in patch-only mode and install the result:
+
+                java -Dpaperclip.patchonly=true -jar folia-<ver>.jar
+                mvn install:install-file \
+                    -Dfile=versions/<mcver>/folia-<mcver>.jar \
+                    -DgroupId=dev.folia.local -DartifactId=folia-server \
+                    -Dversion=<mcver> -Dpackaging=jar
+
+            NOTE: compiled here against 26.1.2 (the paperclip on hand). The boat NMS
+            symbols are unchanged in 26.2, so the plugin runs on a 26.2 server. When
+            bytecode.space is reachable again, migrating to paper-nms is the cleaner
+            long-term setup; see git history for that pom.
+        -->
+        <dependency>
+            <groupId>dev.folia.local</groupId>
+            <artifactId>folia-server</artifactId>
+            <version>26.1.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- The extracted server jar carries net.minecraft.* + craftbukkit, but NOT the
+             Bukkit/Folia API nor the third-party libs its class signatures reference.
+             Supply those from the normal repositories so the compiler can resolve them. -->
         <dependency>
             <groupId>dev.folia</groupId>
             <artifactId>folia-api</artifactId>
-            <version>[26.2.build,)</version>
+            <version>26.2.build.4-beta</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>fastutil</artifactId>
+            <version>8.5.18</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>datafixerupper</artifactId>
+            <version>9.0.19</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>brigadier</artifactId>
+            <version>1.3.10</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -40,7 +95,25 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <release>21</release>
+                    <release>25</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <!--
+                                Tells Paper/Folia this plugin is already compiled against
+                                mojang mappings, so the plugin remapper leaves it alone.
+                                Without this, the server assumes legacy spigot mappings and
+                                remaps the jar on load, corrupting the net.minecraft.* refs.
+                            -->
+                            <paperweight-mappings-namespace>mojang</paperweight-mappings-namespace>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
