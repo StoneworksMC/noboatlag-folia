@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 // their own collisionless subclass. See CollisionlessBoat for the full explanation.
 
 public class CollisionlessChestRaft extends ChestRaft {
-    public CollisionlessRaft(EntityType<? extends ChestRaft> var0, Level var1, Supplier<Item> var2) {
+    public CollisionlessChestRaft(EntityType<? extends ChestRaft> var0, Level var1, Supplier<Item> var2) {
         super(var0, var1, var2);
     }
 

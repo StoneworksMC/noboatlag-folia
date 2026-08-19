@@ -110,25 +110,25 @@ public final class NoBoatLag extends JavaPlugin implements Listener, CommandExec
             dropItem = Items.BAMBOO_RAFT;
         } else if (entityType == EntityTypes.PALE_OAK_BOAT) {
             dropItem = Items.PALE_OAK_BOAT;
-        } else if (entityType == EntityType.OAK_CHEST_BOAT) {
+        } else if (entityType == EntityTypes.OAK_CHEST_BOAT) {
             dropItem = Items.OAK_CHEST_BOAT;
-        } else if (entityType == EntityType.BIRCH_CHEST_BOAT) {
+        } else if (entityType == EntityTypes.BIRCH_CHEST_BOAT) {
             dropItem = Items.BIRCH_CHEST_BOAT;
-        } else if (entityType == EntityType.SPRUCE_CHEST_BOAT) {
+        } else if (entityType == EntityTypes.SPRUCE_CHEST_BOAT) {
             dropItem = Items.SPRUCE_CHEST_BOAT;
-        } else if (entityType == EntityType.JUNGLE_CHEST_BOAT) {
+        } else if (entityType == EntityTypes.JUNGLE_CHEST_BOAT) {
             dropItem = Items.JUNGLE_CHEST_BOAT;
-        } else if (entityType == EntityType.ACACIA_CHEST_BOAT) {
+        } else if (entityType == EntityTypes.ACACIA_CHEST_BOAT) {
             dropItem = Items.ACACIA_CHEST_BOAT;
-        } else if (entityType == EntityType.DARK_OAK_CHEST_BOAT) {
+        } else if (entityType == EntityTypes.DARK_OAK_CHEST_BOAT) {
             dropItem = Items.DARK_OAK_CHEST_BOAT;
-        } else if (entityType == EntityType.MANGROVE_CHEST_BOAT) {
+        } else if (entityType == EntityTypes.MANGROVE_CHEST_BOAT) {
             dropItem = Items.MANGROVE_CHEST_BOAT;
-        } else if (entityType == EntityType.CHERRY_CHEST_BOAT) {
+        } else if (entityType == EntityTypes.CHERRY_CHEST_BOAT) {
             dropItem = Items.CHERRY_CHEST_BOAT;
-        } else if (entityType == EntityType.BAMBOO_CHEST_RAFT) {
+        } else if (entityType == EntityTypes.BAMBOO_CHEST_RAFT) {
             dropItem = Items.BAMBOO_CHEST_RAFT;
-        } else if (entityType == EntityType.PALE_OAK_CHEST_BOAT) {
+        } else if (entityType == EntityTypes.PALE_OAK_CHEST_BOAT) {
             dropItem = Items.PALE_OAK_CHEST_BOAT;
         } else {
             dropItem = Items.DIRT;
@@ -145,8 +145,8 @@ public final class NoBoatLag extends JavaPlugin implements Listener, CommandExec
             raft.teleportTo(location.getX(), location.getY(), location.getZ());
 
             level.addFreshEntity(raft, CreatureSpawnEvent.SpawnReason.COMMAND);
-        } else if (entityType == EntityType.BAMBOO_CHEST_RAFT) {
-            CollisionlessRaft raft = new CollisionlessChestRaft((EntityType<? extends net.minecraft.world.entity.vehicle.boat.ChestRaft>) entityType, level, () -> dropItem);
+        } else if (entityType == EntityTypes.BAMBOO_CHEST_RAFT) {
+            CollisionlessChestRaft raft = new CollisionlessChestRaft((EntityType<? extends net.minecraft.world.entity.vehicle.boat.ChestRaft>) entityType, level, () -> dropItem);
 
             float yaw = Location.normalizeYaw(location.getYaw());
             raft.setYRot(yaw);
@@ -156,8 +156,16 @@ public final class NoBoatLag extends JavaPlugin implements Listener, CommandExec
             raft.teleportTo(location.getX(), location.getY(), location.getZ());
 
             level.addFreshEntity(raft, CreatureSpawnEvent.SpawnReason.COMMAND);
-        } else if (entityType == EntityType.CHEST_BOAT) {
-            CollisionlessRaft raft = new CollisionlessChestBoat((EntityType<? extends net.minecraft.world.entity.vehicle.boat.ChestBoat>) entityType, level, () -> dropItem);
+        } else if (entityType == EntityTypes.CHERRY_CHEST_BOAT ||
+                entityType == EntityTypes.OAK_CHEST_BOAT ||
+                entityType == EntityTypes.BIRCH_CHEST_BOAT ||
+                entityType == EntityTypes.SPRUCE_CHEST_BOAT ||
+                entityType == EntityTypes.DARK_OAK_CHEST_BOAT ||
+                entityType == EntityTypes.PALE_OAK_CHEST_BOAT ||
+                entityType == EntityTypes.JUNGLE_CHEST_BOAT ||
+                entityType == EntityTypes.MANGROVE_CHEST_BOAT ||
+                entityType == EntityTypes.ACACIA_CHEST_BOAT) {
+            CollisionlessChestBoat raft = new CollisionlessChestBoat((EntityType<? extends net.minecraft.world.entity.vehicle.boat.ChestBoat>) entityType, level, () -> dropItem);
 
             float yaw = Location.normalizeYaw(location.getYaw());
             raft.setYRot(yaw);
