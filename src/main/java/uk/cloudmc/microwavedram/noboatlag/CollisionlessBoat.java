@@ -1,4 +1,4 @@
-package uk.cloudmc.microwavedram.noboatlag;
+/*package uk.cloudmc.microwavedram.noboatlag;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -35,3 +35,4 @@ public class CollisionlessBoat extends Boat {
         return false;
     }
 }
+*/

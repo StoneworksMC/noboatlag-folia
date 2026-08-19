@@ -1,19 +1,19 @@
 package uk.cloudmc.microwavedram.noboatlag;
 
-import net.minecraft.world.item.Items;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.vehicle.AbstractBoat;
-import net.minecraft.world.item.Item;
+//import net.minecraft.world.item.Items;
+//import net.minecraft.server.level.ServerLevel;
+//import net.minecraft.world.entity.EntityType;
+//import net.minecraft.world.entity.vehicle.AbstractBoat;
+//import net.minecraft.world.item.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_21_R5.CraftWorld;
-import org.bukkit.craftbukkit.v1_21_R5.entity.CraftBoat;
-import org.bukkit.craftbukkit.v1_21_R5.entity.CraftChestBoat;
+//import org.bukkit.craftbukkit.v1_21_R5.CraftWorld;
+//import org.bukkit.craftbukkit.v1_21_R5.entity.CraftBoat;
+//import org.bukkit.craftbukkit.v1_21_R5.entity.CraftChestBoat;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.ChestBoat;
 import org.bukkit.entity.Player;
@@ -34,7 +34,7 @@ import java.util.Objects;
 public final class NoBoatLag extends JavaPlugin implements Listener, CommandExecutor {
 
     // Cancel the placement of boats, and instead spawn one of our Collisionless ones.
-    @EventHandler
+    /*@EventHandler
     public void onEntityPlace(EntityPlaceEvent entityPlaceEvent) {
         if (entityPlaceEvent.getEntity() instanceof CraftBoat && !(entityPlaceEvent.getEntity() instanceof CraftChestBoat)) {
             Boat boat = (Boat) entityPlaceEvent.getEntity();
@@ -133,7 +133,7 @@ public final class NoBoatLag extends JavaPlugin implements Listener, CommandExec
 
             level.addFreshEntity(boat, CreatureSpawnEvent.SpawnReason.COMMAND);
         }
-    }
+    }*/
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -154,6 +154,7 @@ public final class NoBoatLag extends JavaPlugin implements Listener, CommandExec
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new NoBoatCollisionListener(), this);
 
         if (getConfig().getBoolean("open_boat_utils_interpolation_fix")) {
             Bukkit.getMessenger().registerOutgoingPluginChannel(this, "openboatutils:settings");

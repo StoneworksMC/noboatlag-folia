@@ -1,5 +1,23 @@
 package uk.cloudmc.microwavedram.noboatlag;
 
+import org.bukkit.entity.Boat;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
+
+public class NoBoatCollisionListener implements Listener {
+
+    @EventHandler
+    public void onVehicleCollide(VehicleEntityCollisionEvent event) {
+        if (event.getVehicle() instanceof Boat) {
+            event.setCollisionCancelled(true);
+            event.setCancelled(true);
+        }
+    }
+}
+
+/*package uk.cloudmc.microwavedram.noboatlag;
+
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -33,4 +51,4 @@ public class CollisionlessRaft extends Raft {
     public boolean canCollideWith(Entity entity) {
         return false;
     }
-}
+}*/
