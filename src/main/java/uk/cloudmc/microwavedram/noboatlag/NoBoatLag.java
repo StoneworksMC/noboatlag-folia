@@ -3,6 +3,7 @@ package uk.cloudmc.microwavedram.noboatlag;
 import net.minecraft.world.item.Items;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.item.Item;
 import org.bukkit.Bukkit;
@@ -89,25 +90,25 @@ public final class NoBoatLag extends JavaPlugin implements Listener, CommandExec
 
         Item dropItem;
 
-        if (entityType == EntityType.OAK_BOAT) {
+        if (entityType == EntityTypes.OAK_BOAT) {
             dropItem = Items.OAK_BOAT;
-        } else if (entityType == EntityType.BIRCH_BOAT) {
+        } else if (entityType == EntityTypes.BIRCH_BOAT) {
             dropItem = Items.BIRCH_BOAT;
-        } else if (entityType == EntityType.SPRUCE_BOAT) {
+        } else if (entityType == EntityTypes.SPRUCE_BOAT) {
             dropItem = Items.SPRUCE_BOAT;
-        } else if (entityType == EntityType.JUNGLE_BOAT) {
+        } else if (entityType == EntityTypes.JUNGLE_BOAT) {
             dropItem = Items.JUNGLE_BOAT;
-        } else if (entityType == EntityType.ACACIA_BOAT) {
+        } else if (entityType == EntityTypes.ACACIA_BOAT) {
             dropItem = Items.ACACIA_BOAT;
-        } else if (entityType == EntityType.DARK_OAK_BOAT) {
+        } else if (entityType == EntityTypes.DARK_OAK_BOAT) {
             dropItem = Items.DARK_OAK_BOAT;
-        } else if (entityType == EntityType.MANGROVE_BOAT) {
+        } else if (entityType == EntityTypes.MANGROVE_BOAT) {
             dropItem = Items.MANGROVE_BOAT;
-        } else if (entityType == EntityType.CHERRY_BOAT) {
+        } else if (entityType == EntityTypes.CHERRY_BOAT) {
             dropItem = Items.CHERRY_BOAT;
-        } else if (entityType == EntityType.BAMBOO_RAFT) {
+        } else if (entityType == EntityTypes.BAMBOO_RAFT) {
             dropItem = Items.BAMBOO_RAFT;
-        } else if (entityType == EntityType.PALE_OAK_BOAT) {
+        } else if (entityType == EntityTypes.PALE_OAK_BOAT) {
             dropItem = Items.PALE_OAK_BOAT;
         } else if (entityType == EntityType.OAK_CHEST_BOAT) {
             dropItem = Items.OAK_CHEST_BOAT;
@@ -133,7 +134,7 @@ public final class NoBoatLag extends JavaPlugin implements Listener, CommandExec
             dropItem = Items.DIRT;
         }
 
-        if (entityType == EntityType.BAMBOO_RAFT) {
+        if (entityType == EntityTypes.BAMBOO_RAFT) {
             CollisionlessRaft raft = new CollisionlessRaft((EntityType<? extends net.minecraft.world.entity.vehicle.boat.Raft>) entityType, level, () -> dropItem);
 
             float yaw = Location.normalizeYaw(location.getYaw());

@@ -101,6 +101,12 @@ $RECYCLE.BIN/
 
 target/
 
+# Gradle
+.gradle/
+build/
+# ...but the wrapper jar MUST be committed so clones can run ./gradlew
+!gradle/wrapper/gradle-wrapper.jar
+
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
