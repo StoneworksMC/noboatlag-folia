@@ -2,8 +2,8 @@ package uk.cloudmc.microwavedram.noboatlag;
 
 import net.minecraft.world.item.Items;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EntityTypes;
+//import net.minecraft.world.entity.EntityType;
+import org.bukkit.entity.EntityType;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.item.Item;
 import org.bukkit.Bukkit;
@@ -17,6 +17,7 @@ import org.bukkit.craftbukkit.entity.CraftBoat;
 import org.bukkit.craftbukkit.entity.CraftChestBoat;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.boat.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -41,12 +42,13 @@ public final class NoBoatLag extends JavaPlugin implements Listener, CommandExec
 
             AbstractBoat abstractBoat = ((CraftBoat) boat).getHandle();
 
-            EntityType<?> type = abstractBoat.getType();
+            net.minecraft.world.entity.EntityType<?> nmstype = abstractBoat.getType();
+            EntityType regType = boat.getType();
 
             // Folia: EntityPlaceEvent fires on the region thread that owns the boat's
             // location, so spawnBoat()'s addFreshEntity() call below runs on the correct
             // thread. Keep this synchronous - do NOT hand it to a global/async scheduler.
-            spawnBoat(boat.getLocation(), type);
+            spawnBoat(boat.getLocation(), regType, nmstype);
             Player player = entityPlaceEvent.getPlayer();
             assert player != null;
             PlayerInventory inventory = player.getInventory();
@@ -85,57 +87,57 @@ public final class NoBoatLag extends JavaPlugin implements Listener, CommandExec
     }
 
     // Spawn one of our collisionless boats at a location.
-    public void spawnBoat(Location location, net.minecraft.world.entity.EntityType<?> entityType) {
+    public void spawnBoat(Location location, EntityType entityType, net.minecraft.world.entity.EntityType<?> nmsentityType) {
         ServerLevel level = ((CraftWorld) Objects.requireNonNull(location.getWorld())).getHandle();
 
         Item dropItem;
 
-        if (entityType == EntityTypes.OAK_BOAT) {
+        if (entityType == EntityType.OAK_BOAT) {
             dropItem = Items.OAK_BOAT;
-        } else if (entityType == EntityTypes.BIRCH_BOAT) {
+        } else if (entityType == EntityType.BIRCH_BOAT) {
             dropItem = Items.BIRCH_BOAT;
-        } else if (entityType == EntityTypes.SPRUCE_BOAT) {
+        } else if (entityType == EntityType.SPRUCE_BOAT) {
             dropItem = Items.SPRUCE_BOAT;
-        } else if (entityType == EntityTypes.JUNGLE_BOAT) {
+        } else if (entityType == EntityType.JUNGLE_BOAT) {
             dropItem = Items.JUNGLE_BOAT;
-        } else if (entityType == EntityTypes.ACACIA_BOAT) {
+        } else if (entityType == EntityType.ACACIA_BOAT) {
             dropItem = Items.ACACIA_BOAT;
-        } else if (entityType == EntityTypes.DARK_OAK_BOAT) {
+        } else if (entityType == EntityType.DARK_OAK_BOAT) {
             dropItem = Items.DARK_OAK_BOAT;
-        } else if (entityType == EntityTypes.MANGROVE_BOAT) {
+        } else if (entityType == EntityType.MANGROVE_BOAT) {
             dropItem = Items.MANGROVE_BOAT;
-        } else if (entityType == EntityTypes.CHERRY_BOAT) {
+        } else if (entityType == EntityType.CHERRY_BOAT) {
             dropItem = Items.CHERRY_BOAT;
-        } else if (entityType == EntityTypes.BAMBOO_RAFT) {
+        } else if (entityType == EntityType.BAMBOO_RAFT) {
             dropItem = Items.BAMBOO_RAFT;
-        } else if (entityType == EntityTypes.PALE_OAK_BOAT) {
+        } else if (entityType == EntityType.PALE_OAK_BOAT) {
             dropItem = Items.PALE_OAK_BOAT;
-        } else if (entityType == EntityTypes.OAK_CHEST_BOAT) {
+        } else if (entityType == EntityType.OAK_CHEST_BOAT) {
             dropItem = Items.OAK_CHEST_BOAT;
-        } else if (entityType == EntityTypes.BIRCH_CHEST_BOAT) {
+        } else if (entityType == EntityType.BIRCH_CHEST_BOAT) {
             dropItem = Items.BIRCH_CHEST_BOAT;
-        } else if (entityType == EntityTypes.SPRUCE_CHEST_BOAT) {
+        } else if (entityType == EntityType.SPRUCE_CHEST_BOAT) {
             dropItem = Items.SPRUCE_CHEST_BOAT;
-        } else if (entityType == EntityTypes.JUNGLE_CHEST_BOAT) {
+        } else if (entityType == EntityType.JUNGLE_CHEST_BOAT) {
             dropItem = Items.JUNGLE_CHEST_BOAT;
-        } else if (entityType == EntityTypes.ACACIA_CHEST_BOAT) {
+        } else if (entityType == EntityType.ACACIA_CHEST_BOAT) {
             dropItem = Items.ACACIA_CHEST_BOAT;
-        } else if (entityType == EntityTypes.DARK_OAK_CHEST_BOAT) {
+        } else if (entityType == EntityType.DARK_OAK_CHEST_BOAT) {
             dropItem = Items.DARK_OAK_CHEST_BOAT;
-        } else if (entityType == EntityTypes.MANGROVE_CHEST_BOAT) {
+        } else if (entityType == EntityType.MANGROVE_CHEST_BOAT) {
             dropItem = Items.MANGROVE_CHEST_BOAT;
-        } else if (entityType == EntityTypes.CHERRY_CHEST_BOAT) {
+        } else if (entityType == EntityType.CHERRY_CHEST_BOAT) {
             dropItem = Items.CHERRY_CHEST_BOAT;
-        } else if (entityType == EntityTypes.BAMBOO_CHEST_RAFT) {
+        } else if (entityType == EntityType.BAMBOO_CHEST_RAFT) {
             dropItem = Items.BAMBOO_CHEST_RAFT;
-        } else if (entityType == EntityTypes.PALE_OAK_CHEST_BOAT) {
+        } else if (entityType == EntityType.PALE_OAK_CHEST_BOAT) {
             dropItem = Items.PALE_OAK_CHEST_BOAT;
         } else {
             dropItem = Items.DIRT;
         }
 
-        if (entityType == EntityTypes.BAMBOO_RAFT) {
-            CollisionlessRaft raft = new CollisionlessRaft((EntityType<? extends net.minecraft.world.entity.vehicle.boat.Raft>) entityType, level, () -> dropItem);
+        if (entityType == EntityType.BAMBOO_RAFT) {
+            CollisionlessRaft raft = new CollisionlessRaft((net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.vehicle.boat.Raft>) nmsentityType, level, () -> dropItem);
 
             float yaw = Location.normalizeYaw(location.getYaw());
             raft.setYRot(yaw);
@@ -145,38 +147,38 @@ public final class NoBoatLag extends JavaPlugin implements Listener, CommandExec
             raft.teleportTo(location.getX(), location.getY(), location.getZ());
 
             level.addFreshEntity(raft, CreatureSpawnEvent.SpawnReason.COMMAND);
-        } else if (entityType == EntityTypes.BAMBOO_CHEST_RAFT) {
-            CollisionlessChestRaft raft = new CollisionlessChestRaft((EntityType<? extends net.minecraft.world.entity.vehicle.boat.ChestRaft>) entityType, level, () -> dropItem);
+        } else if (entityType == EntityType.BAMBOO_CHEST_RAFT) {
+            CollisionlessChestRaft chraft = new CollisionlessChestRaft((net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.vehicle.boat.ChestRaft>) nmsentityType, level, () -> dropItem);
 
             float yaw = Location.normalizeYaw(location.getYaw());
-            raft.setYRot(yaw);
-            raft.yRotO = yaw;
-            raft.setYHeadRot(yaw);
+            chraft.setYRot(yaw);
+            chraft.yRotO = yaw;
+            chraft.setYHeadRot(yaw);
 
-            raft.teleportTo(location.getX(), location.getY(), location.getZ());
+            chraft.teleportTo(location.getX(), location.getY(), location.getZ());
 
-            level.addFreshEntity(raft, CreatureSpawnEvent.SpawnReason.COMMAND);
-        } else if (entityType == EntityTypes.CHERRY_CHEST_BOAT ||
-                entityType == EntityTypes.OAK_CHEST_BOAT ||
-                entityType == EntityTypes.BIRCH_CHEST_BOAT ||
-                entityType == EntityTypes.SPRUCE_CHEST_BOAT ||
-                entityType == EntityTypes.DARK_OAK_CHEST_BOAT ||
-                entityType == EntityTypes.PALE_OAK_CHEST_BOAT ||
-                entityType == EntityTypes.JUNGLE_CHEST_BOAT ||
-                entityType == EntityTypes.MANGROVE_CHEST_BOAT ||
-                entityType == EntityTypes.ACACIA_CHEST_BOAT) {
-            CollisionlessChestBoat raft = new CollisionlessChestBoat((EntityType<? extends net.minecraft.world.entity.vehicle.boat.ChestBoat>) entityType, level, () -> dropItem);
+            level.addFreshEntity(chraft, CreatureSpawnEvent.SpawnReason.COMMAND);
+        } else if (entityType == EntityType.CHERRY_CHEST_BOAT ||
+                entityType == EntityType.OAK_CHEST_BOAT ||
+                entityType == EntityType.BIRCH_CHEST_BOAT ||
+                entityType == EntityType.SPRUCE_CHEST_BOAT ||
+                entityType == EntityType.DARK_OAK_CHEST_BOAT ||
+                entityType == EntityType.PALE_OAK_CHEST_BOAT ||
+                entityType == EntityType.JUNGLE_CHEST_BOAT ||
+                entityType == EntityType.MANGROVE_CHEST_BOAT ||
+                entityType == EntityType.ACACIA_CHEST_BOAT) {
+            CollisionlessChestBoat chboat = new CollisionlessChestBoat((net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.vehicle.boat.ChestBoat>) nmsentityType, level, () -> dropItem);
 
             float yaw = Location.normalizeYaw(location.getYaw());
-            raft.setYRot(yaw);
-            raft.yRotO = yaw;
-            raft.setYHeadRot(yaw);
+            chboat.setYRot(yaw);
+            chboat.yRotO = yaw;
+            chboat.setYHeadRot(yaw);
 
-            raft.teleportTo(location.getX(), location.getY(), location.getZ());
+            chboat.teleportTo(location.getX(), location.getY(), location.getZ());
 
-            level.addFreshEntity(raft, CreatureSpawnEvent.SpawnReason.COMMAND);
+            level.addFreshEntity(chboat, CreatureSpawnEvent.SpawnReason.COMMAND);
         } else {
-            CollisionlessBoat boat = new CollisionlessBoat((EntityType<? extends net.minecraft.world.entity.vehicle.boat.Boat>) entityType, level, () -> dropItem);
+            CollisionlessBoat boat = new CollisionlessBoat((net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.vehicle.boat.Boat>) nmsentityType, level, () -> dropItem);
             float yaw = Location.normalizeYaw(location.getYaw());
             boat.setYRot(yaw);
             boat.yRotO = yaw;

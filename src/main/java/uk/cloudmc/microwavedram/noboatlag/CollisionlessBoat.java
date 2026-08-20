@@ -32,4 +32,8 @@ public class CollisionlessBoat extends Boat {
     public boolean canCollideWith(Entity entity) {
         return false;
     }
+    @Override
+    public boolean isPushable() {
+        return true; // was false for testing but then you cannot push ANY boat with your own.
+    }
 }

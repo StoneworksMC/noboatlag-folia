@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "uk.cloudmc.microwavedram"
-version = "1.4-SNAPSHOT"
+version = "1.5-SNAPSHOT"
 
 base {
     archivesName.set("noboatlag")
